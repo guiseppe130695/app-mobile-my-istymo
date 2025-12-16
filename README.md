@@ -1,50 +1,206 @@
-# Welcome to your Expo app 👋
+# 📱 React Native (Expo) – Application Mobile
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Ce projet utilise **Expo Router** (file-based routing) pour mettre en place une architecture propre, scalable et professionnelle, pensée pour une application connectée à un backend **WordPress (Headless)**.
 
-## Get started
+---
 
-1. Install dependencies
+## 🎯 Objectif
 
-   ```bash
-   npm install
-   ```
+Mettre en place une **base solide** pour :
 
-2. Start the app
+* une application mobile Android & iOS
+* une navigation basée sur les fichiers (file-based routing)
+* une architecture modulaire et scalable
+* une évolution future (auth, WordPress API, state management, etc.)
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## 🧱 Architecture du projet
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Structure principale
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```txt
+my-istymo/
+ ├── app/                    # Routes Expo Router (file-based routing)
+ │   ├── _layout.tsx         # Layout racine avec Stack Navigator
+ │   ├── (tabs)/             # Groupe de navigation par tabs
+ │   │   ├── _layout.tsx     # Layout des tabs
+ │   │   ├── index.tsx       # Écran Home
+ │   │   └── explore.tsx     # Écran Explore
+ │   └── modal.tsx           # Écran modal
+ │
+ ├── src/                    # Code source principal (logique métier)
+ │   ├── api/                # Services API et appels HTTP
+ │   ├── components/         # Composants réutilisables
+ │   ├── hooks/              # Hooks personnalisés
+ │   ├── navigation/         # Configuration navigation avancée
+ │   ├── screens/            # Composants d'écrans (si nécessaire)
+ │   ├── store/              # State management (Redux, Zustand, etc.)
+ │   └── utils/              # Fonctions utilitaires
+ │
+ ├── components/             # Composants UI partagés
+ ├── constants/              # Constantes (thème, couleurs, etc.)
+ ├── hooks/                  # Hooks partagés (thème, color scheme)
+ └── assets/                 # Images, fonts, etc.
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 🧭 Rôle de chaque dossier
 
-To learn more about developing your project with Expo, look at the following resources:
+### `app/` - Routes Expo Router
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Contient la structure de navigation basée sur les fichiers :
 
-## Join the community
+* `_layout.tsx` → Layout racine avec Stack Navigator
+* `(tabs)/` → Groupe de navigation par tabs
+  * `index.tsx` → Écran d'accueil
+  * `explore.tsx` → Écran d'exploration
+* `modal.tsx` → Écran modal
 
-Join our community of developers creating universal apps.
+👉 Expo Router génère automatiquement les routes à partir de la structure de fichiers.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+### `src/` - Logique métier
+
+Architecture modulaire pour séparer les préoccupations :
+
+#### `src/api/`
+Services API et appels HTTP vers le backend WordPress :
+* Configuration des endpoints
+* Gestion des requêtes (GET, POST, etc.)
+* Intercepteurs et gestion d'erreurs
+
+#### `src/components/`
+Composants réutilisables spécifiques à l'application :
+* Composants métier
+* Composants de formulaire
+* Composants de liste, etc.
+
+#### `src/hooks/`
+Hooks personnalisés pour la logique métier :
+* Hooks de données (usePosts, useAuth, etc.)
+* Hooks de navigation personnalisés
+* Hooks de gestion d'état
+
+#### `src/navigation/`
+Configuration avancée de navigation (si nécessaire) :
+* Types de navigation
+* Helpers de navigation
+* Guards et middlewares
+
+#### `src/screens/`
+Composants d'écrans réutilisables (optionnel si on utilise directement les fichiers dans `app/`) :
+* Composants d'écran réutilisables
+* Variantes d'écrans
+
+#### `src/store/`
+State management global :
+* Store Redux / Zustand / Context
+* Actions et reducers
+* Sélecteurs
+
+#### `src/utils/`
+Fonctions utilitaires :
+* Helpers de formatage
+* Validations
+* Transformations de données
+* Constantes métier
+
+---
+
+### `components/` - Composants UI partagés
+
+Composants UI réutilisables à la racine :
+* Composants de base (themed-text, themed-view, etc.)
+* Composants UI (collapsible, icon-symbol, etc.)
+
+---
+
+### `constants/` - Constantes
+
+Configuration globale :
+* Thème et couleurs
+* Constantes d'application
+
+---
+
+### `hooks/` - Hooks partagés
+
+Hooks génériques à la racine :
+* `use-color-scheme` → Détection du thème (dark/light)
+* `use-theme-color` → Accès aux couleurs du thème
+
+---
+
+## 🚀 Point d'entrée
+
+Le fichier `app/_layout.tsx` est le point d'entrée de l'application :
+
+* Configure le ThemeProvider
+* Définit le Stack Navigator racine
+* Gère le StatusBar
+
+---
+
+## ▶️ Lancer le projet
+
+```bash
+npm run start
+```
+
+Puis :
+
+* `a` → Android
+* `i` → iOS
+* `w` → Web
+* QR Code → Expo Go (mobile)
+
+Autres commandes :
+
+```bash
+npm run android    # Lancer directement sur Android
+npm run ios        # Lancer directement sur iOS
+npm run web        # Lancer directement sur Web
+npm run lint       # Vérifier le code
+```
+
+---
+
+## 🔜 Évolutions prévues
+
+Cette architecture permet d'ajouter facilement :
+
+* 🔐 Authentification (JWT WordPress) → `src/api/auth.ts`
+* 📰 Récupération des articles WP → `src/api/posts.ts`
+* 🗄️ State management → `src/store/`
+* 🔔 Notifications push → `src/utils/notifications.ts`
+* 🎨 Thème personnalisé → `constants/theme.ts`
+* 📱 Navigation avancée → `src/navigation/`
+
+---
+
+## ✅ Bonnes pratiques
+
+* **Séparation des préoccupations** : Logique métier dans `src/`, routes dans `app/`
+* **Composants réutilisables** : Centraliser dans `components/` ou `src/components/`
+* **API centralisée** : Tous les appels API dans `src/api/`
+* **State management** : Utiliser `src/store/` pour l'état global
+* **Hooks personnalisés** : Logique réutilisable dans `src/hooks/`
+* **File-based routing** : Profiter d'Expo Router pour la navigation
+
+---
+
+## 🏗️ Stack technique
+
+* **React Native** 0.81.5
+* **Expo** ~54.0.29
+* **Expo Router** ~6.0.19 (file-based routing)
+* **TypeScript** 5.9.2
+* **React Navigation** (via Expo Router)
+* **WordPress Headless** (API)
+
+---
+
+💡 Cette architecture est conçue pour être **scalable**, **maintenable** et prête pour un projet professionnel.
